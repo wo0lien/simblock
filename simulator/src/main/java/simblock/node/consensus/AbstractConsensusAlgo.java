@@ -51,6 +51,13 @@ public abstract class AbstractConsensusAlgo {
    */
   public abstract AbstractMintingTask minting();
 
+
+  /**
+   * Minting EmptyBlock task
+   */
+  public AbstractMintingTask mintingEmptyBlock() {
+    return null;
+  }
   /**
    * Tests if the receivedBlock is valid with regards to the current block.
    *
