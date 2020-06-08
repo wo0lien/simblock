@@ -19,7 +19,6 @@ public class EmptyBlock extends Block {
     double n = N.doubleValue();
     //Use the article probability formula
     double callValue = Math.pow(n, ((double)this.getCallValueStack() / (double)k) - 1.0);
-    // System.out.println("callValue : " + callValue);
     this.setCallValueProba(callValue);
   }
   public EmptyBlock(NormalBlock parent, Node minter, long time) {

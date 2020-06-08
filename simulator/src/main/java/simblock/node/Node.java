@@ -339,15 +339,11 @@ public class Node {
    * @param block the block
    */
   public void receiveBlock(Block block) {
-    System.out.println("Receive block function triggered for " + this + " with bloc " + block);
     if (this.consensusAlgo.isReceivedBlockValid(block, this.block)) {
       if (this.block != null && !this.block.isOnSameChainAs(block)) {
         // If orphan mark orphan
-        System.out.println("The bloc " + block + "has been marked as orphan by " + this);
         this.addOrphans(this.block, block);
       }
-      System.out.println(this + " is currently in receiveBlock() function for bloc" + block);
-      System.out.println("it's current bloc is " + this.block);
       // Else add to canonical chain
       this.addToChain(block);
       // Generates a new minting task

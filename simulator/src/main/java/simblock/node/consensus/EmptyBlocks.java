@@ -25,13 +25,7 @@ public class EmptyBlocks extends AbstractConsensusAlgo {
     Block parent = selfNode.getBlock();
     double callValueProba = parent.getCallValueProba();
     double p = random.nextDouble();
-    long inter = (long) (1 / selfNode.getMiningPower());
-    System.out.println("callValueProba : " + callValueProba + "p : " + p);
-    if (p <= callValueProba) {
-      System.out.println("true, stack : " + parent.getCallValueStack() + " parent : " + parent);
-    } else {
-      System.out.println("false, stack : " + parent.getCallValueStack() + " parent : " + parent);
-    }
+    long inter = (long) (1.0 / selfNode.getMiningPower());
     return p <= callValueProba ? new MiningNormalBlockTask(selfNode, inter) : null;
   }
 
