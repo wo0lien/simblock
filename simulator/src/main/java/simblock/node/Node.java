@@ -78,7 +78,7 @@ public class Node {
   /**
    * The current minting task
    */
-  private AbstractMintingTask mintingTask = null;
+  protected AbstractMintingTask mintingTask = null;
 
   /**
    * In the process of sending blocks.
@@ -344,6 +344,8 @@ public class Node {
         // If orphan mark orphan
         this.addOrphans(this.block, block);
       }
+      System.out.println(this);
+      System.out.println(this.block);
       // Else add to canonical chain
       this.addToChain(block);
       // Generates a new minting task
