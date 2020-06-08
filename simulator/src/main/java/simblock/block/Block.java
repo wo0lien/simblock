@@ -53,6 +53,14 @@ public class Block {
   private static int latestId = 0;
 
   /**
+   * The call Value for Empty Blocks proof
+  */
+  private double callValueProba = 0.0;
+  /**
+   * The call Value stack for Empty blocks proof
+   */
+  private int callValueStack = 0;
+  /**
    * Instantiates a new Block.
    *
    * @param parent the parent
@@ -155,5 +163,34 @@ public class Block {
     } else {
       return this.getBlockWithHeight(block.height).equals(block);
     }
+  }
+
+  /**
+   * get the call value proba
+   * @return callValueProba
+   */
+  public double getCallValueProba() {
+    return this.callValueProba;
+  }
+  /**
+   * get the call value height
+   * @return call values stack height
+   */
+  public int getCallValueStack() {
+    return this.callValueStack;
+  }
+  /**
+   * Set the callValueProba var
+   * @param c double between 0 and 1
+   */
+  public void setCallValueProba(double c) {
+    this.callValueProba = c;
+  }
+  /**
+   * Set the callValueStack var
+   * @param s integer height 
+   */
+  public void setCallValueStack(int s) {
+    this.callValueStack = s;
   }
 }
