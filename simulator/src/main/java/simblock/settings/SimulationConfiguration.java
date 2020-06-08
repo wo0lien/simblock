@@ -24,7 +24,7 @@ public class SimulationConfiguration {
    * The number of nodes participating in the blockchain network.
    */
   //TODO revert
-  public static final int NUM_OF_NODES = 5;//600;//800;//6000;
+  public static final int NUM_OF_NODES = 500;//600;//800;//6000;
   // public static final int NUM_OF_NODES = 600;//600;//800;//6000;
 
   /**
@@ -78,7 +78,7 @@ public class SimulationConfiguration {
    */
   //TODO revert
   //public static final int END_BLOCK_HEIGHT = 100;
-  public static final int END_BLOCK_HEIGHT = 8;
+  public static final int END_BLOCK_HEIGHT = 40;
 
   /**
    * Block size. (unit: byte).

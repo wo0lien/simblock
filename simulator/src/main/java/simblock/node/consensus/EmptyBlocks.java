@@ -11,14 +11,14 @@ import simblock.task.AbstractMintingTask;
 import simblock.task.MiningEmptyBlockTask;
 import simblock.task.MiningNormalBlockTask;
 
-public class EmptyBlocks extends AbstractConsensusAlgo{
+public class EmptyBlocks extends AbstractConsensusAlgo {
   public EmptyBlocks(Node selfNode) {
     super(selfNode);
   }
 
   /**
-   * Determine if yes or not the block can be mined or not.
-   * If the block can't be mined it returns null
+   * Determine if yes or not the block can be mined or not. If the block can't be
+   * mined it returns null
    */
   public MiningNormalBlockTask minting() {
     Node selfNode = this.getSelfNode();
@@ -26,11 +26,13 @@ public class EmptyBlocks extends AbstractConsensusAlgo{
     double callValueProba = parent.getCallValueProba();
     double p = random.nextDouble();
     long inter = (long) (1 / selfNode.getMiningPower());
-    System.out.println("mining normal block");
-    System.out.println(callValueProba);
-    System.out.println(p <= callValueProba);
-    // return p <= callValueProba ? new MiningNormalBlockTask(selfNode, inter) : null;
-    return null;
+    System.out.println("callValueProba : " + callValueProba + "p : " + p);
+    if (p <= callValueProba) {
+      System.out.println("true, stack : " + parent.getCallValueStack() + " parent : " + parent);
+    } else {
+      System.out.println("false, stack : " + parent.getCallValueStack() + " parent : " + parent);
+    }
+    return p <= callValueProba ? new MiningNormalBlockTask(selfNode, inter) : null;
   }
 
   /**
@@ -39,7 +41,6 @@ public class EmptyBlocks extends AbstractConsensusAlgo{
   @Override
   public AbstractMintingTask mintingEmptyBlock() {
     Node selfNode = this.getSelfNode();
-    System.out.println("mining empty block");
     return new MiningEmptyBlockTask(selfNode, INTERVAL);
   }
 
@@ -51,14 +52,14 @@ public class EmptyBlocks extends AbstractConsensusAlgo{
     if ((receivedBlock instanceof NormalBlock) && receivedBlock != currentBlock) {
       return true;
     }
-    if ((receivedBlock instanceof EmptyBlock) && ((receivedBlock.getCallValueStack() - currentBlock.getCallValueStack()) == 1)) {
-      return true; 
+    if ((receivedBlock instanceof EmptyBlock)
+        && ((receivedBlock.getCallValueStack() - currentBlock.getCallValueStack()) == 1)) {
+      return true;
     }
     return false;
   }
 
   public Block genesisBlock() {
-    System.out.println("genesis");
     return NormalBlock.genesisBlock(this.getSelfNode());
   }
 }
