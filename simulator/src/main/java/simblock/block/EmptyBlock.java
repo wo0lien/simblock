@@ -14,7 +14,7 @@ public class EmptyBlock extends Block {
   public EmptyBlock(EmptyBlock parent, Node minter, long time) {
     super(parent, minter, time);
     //Get the parent callValue stack and increment
-    this.setCallValueStack(this.getParent().getCallValueStack());
+    this.setCallValueStack(this.getParent().getCallValueStack() + 1);
     //Set the callValue Proba with formula
     double n = N.doubleValue();
     //Use the article probability formula
@@ -24,7 +24,7 @@ public class EmptyBlock extends Block {
   public EmptyBlock(NormalBlock parent, Node minter, long time) {
     super(parent, minter, time);
     //Get the parent callValue stack and increment
-    this.setCallValueStack(this.getParent().getCallValueStack());
+    this.setCallValueStack(this.getParent().getCallValueStack() + 1);
     //Set the callValue Proba with formula
     double n = N.doubleValue();
     //Use the article probability formula

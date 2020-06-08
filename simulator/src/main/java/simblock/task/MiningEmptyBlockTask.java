@@ -20,7 +20,7 @@ public class MiningEmptyBlockTask extends AbstractMintingTask {
     } else {
       createdBlock = new EmptyBlock((EmptyBlock) this.getParent(), this.getMinter(), getCurrentTime());
     }
-    System.out.println("receivedBlock empty bloc");
+    System.out.println("Empty bloc mined by " + this.getMinter() + "and received now.");
     this.getMinter().receiveBlock(createdBlock);
   }
 }

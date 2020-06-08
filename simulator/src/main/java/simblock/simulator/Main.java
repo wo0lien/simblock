@@ -130,6 +130,7 @@ public class Main {
 
     // Iterate over tasks and handle
     while (getTask() != null) {
+      System.out.println(getTask());
       if (getTask() instanceof AbstractMintingTask) {
         AbstractMintingTask task = (AbstractMintingTask) getTask();
         System.out.println(currentBlockHeight);
