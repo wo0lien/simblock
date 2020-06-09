@@ -23,6 +23,7 @@ import static simblock.settings.SimulationConfiguration.INTERVAL;
 import static simblock.settings.SimulationConfiguration.NUM_OF_NODES;
 import static simblock.settings.SimulationConfiguration.STDEV_OF_MINING_POWER;
 import static simblock.settings.SimulationConfiguration.TABLE;
+import static simblock.settings.SimulationConfiguration.LOG_OUT_FILE;
 import static simblock.simulator.Network.getDegreeDistribution;
 import static simblock.simulator.Network.getRegionDistribution;
 import static simblock.simulator.Network.printRegion;
@@ -116,8 +117,10 @@ public class Main {
     setTargetInterval(INTERVAL);
 
     // start json format
-    OUT_JSON_FILE.print("[");
-    OUT_JSON_FILE.flush();
+    if (LOG_OUT_FILE) {
+      OUT_JSON_FILE.print("[");
+      OUT_JSON_FILE.flush();
+    }
 
     // Log regions
     printRegion();
@@ -220,15 +223,17 @@ public class Main {
       ex.printStackTrace();
     }
 
-    OUT_JSON_FILE.print("{");
-    OUT_JSON_FILE.print("\"kind\":\"simulation-end\",");
-    OUT_JSON_FILE.print("\"content\":{");
-    OUT_JSON_FILE.print("\"timestamp\":" + getCurrentTime());
-    OUT_JSON_FILE.print("}");
-    OUT_JSON_FILE.print("}");
-    // end json format
-    OUT_JSON_FILE.print("]");
-    OUT_JSON_FILE.close();
+    if (LOG_OUT_FILE) {
+      OUT_JSON_FILE.print("{");
+      OUT_JSON_FILE.print("\"kind\":\"simulation-end\",");
+      OUT_JSON_FILE.print("\"content\":{");
+      OUT_JSON_FILE.print("\"timestamp\":" + getCurrentTime());
+      OUT_JSON_FILE.print("}");
+      OUT_JSON_FILE.print("}");
+      // end json format
+      OUT_JSON_FILE.print("]");
+      OUT_JSON_FILE.close();
+    }
 
     long end = System.currentTimeMillis();
     simulationTime += end - start;
@@ -317,15 +322,17 @@ public class Main {
     Node central = new CentralAuthority(20, TABLE, ALGO);
     addNode(central);
 
-    OUT_JSON_FILE.print("{");
-    OUT_JSON_FILE.print("\"kind\":\"add-node\",");
-    OUT_JSON_FILE.print("\"content\":{");
-    OUT_JSON_FILE.print("\"timestamp\":0,");
-    OUT_JSON_FILE.print("\"node-id\":" + 1 + ",");
-    OUT_JSON_FILE.print("\"region-id\":" + regionList.get(1 - 1));
-    OUT_JSON_FILE.print("}");
-    OUT_JSON_FILE.print("},");
-    OUT_JSON_FILE.flush();
+    if (LOG_OUT_FILE) {
+      OUT_JSON_FILE.print("{");
+      OUT_JSON_FILE.print("\"kind\":\"add-node\",");
+      OUT_JSON_FILE.print("\"content\":{");
+      OUT_JSON_FILE.print("\"timestamp\":0,");
+      OUT_JSON_FILE.print("\"node-id\":" + 1 + ",");
+      OUT_JSON_FILE.print("\"region-id\":" + regionList.get(1 - 1));
+      OUT_JSON_FILE.print("}");
+      OUT_JSON_FILE.print("},");
+      OUT_JSON_FILE.flush();
+    }
 
     for (int id = 2; id <= numNodes; id++) {
       // Each node gets assigned a region, its degree, mining power, routing table and
@@ -334,15 +341,17 @@ public class Main {
       // Add the node to the list of simulated nodes
       addNode(node);
 
-      OUT_JSON_FILE.print("{");
-      OUT_JSON_FILE.print("\"kind\":\"add-node\",");
-      OUT_JSON_FILE.print("\"content\":{");
-      OUT_JSON_FILE.print("\"timestamp\":0,");
-      OUT_JSON_FILE.print("\"node-id\":" + id + ",");
-      OUT_JSON_FILE.print("\"region-id\":" + regionList.get(id - 1));
-      OUT_JSON_FILE.print("}");
-      OUT_JSON_FILE.print("},");
-      OUT_JSON_FILE.flush();
+      if (LOG_OUT_FILE) {
+        OUT_JSON_FILE.print("{");
+        OUT_JSON_FILE.print("\"kind\":\"add-node\",");
+        OUT_JSON_FILE.print("\"content\":{");
+        OUT_JSON_FILE.print("\"timestamp\":0,");
+        OUT_JSON_FILE.print("\"node-id\":" + id + ",");
+        OUT_JSON_FILE.print("\"region-id\":" + regionList.get(id - 1));
+        OUT_JSON_FILE.print("}");
+        OUT_JSON_FILE.print("},");
+        OUT_JSON_FILE.flush();
+      }
 
     }
 

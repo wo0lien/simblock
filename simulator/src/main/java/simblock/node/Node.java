@@ -18,6 +18,7 @@ package simblock.node;
 
 import static simblock.settings.SimulationConfiguration.BLOCK_SIZE;
 import static simblock.simulator.Main.OUT_JSON_FILE;
+import static simblock.settings.SimulationConfiguration.LOG_OUT_FILE;
 import static simblock.simulator.Network.getBandwidth;
 import static simblock.simulator.Simulator.arriveBlock;
 import static simblock.simulator.Timer.getCurrentTime;
@@ -86,7 +87,7 @@ public class Node {
   // TODO verify
   private boolean sendingBlock = false;
 
-  //TODO
+  // TODO
   private final ArrayList<RecMessageTask> messageQue = new ArrayList<>();
   // TODO
   private final Set<Block> downloadingBlocks = new HashSet<>();
@@ -106,18 +107,16 @@ public class Node {
    * @param routingTableName  the routing table name
    * @param consensusAlgoName the consensus algorithm name
    */
-  public Node(
-      int nodeID, int numConnection, int region, long miningPower, String routingTableName,
-      String consensusAlgoName
-  ) {
+  public Node(int nodeID, int numConnection, int region, long miningPower, String routingTableName,
+      String consensusAlgoName) {
     this.nodeID = nodeID;
     this.region = region;
     this.miningPower = miningPower;
     try {
-      this.routingTable = (AbstractRoutingTable) Class.forName(routingTableName).getConstructor(
-          Node.class).newInstance(this);
-      this.consensusAlgo = (AbstractConsensusAlgo) Class.forName(consensusAlgoName).getConstructor(
-          Node.class).newInstance(this);
+      this.routingTable = (AbstractRoutingTable) Class.forName(routingTableName).getConstructor(Node.class)
+          .newInstance(this);
+      this.consensusAlgo = (AbstractConsensusAlgo) Class.forName(consensusAlgoName).getConstructor(Node.class)
+          .newInstance(this);
       this.setNumConnection(numConnection);
     } catch (Exception e) {
       e.printStackTrace();
@@ -254,8 +253,8 @@ public class Node {
   }
 
   /**
-   * Adds a new block to the to chain. If node was minting that task instance is abandoned, and
-   * the new block arrival is handled.
+   * Adds a new block to the to chain. If node was minting that task instance is
+   * abandoned, and the new block arrival is handled.
    *
    * @param newBlock the new block
    */
@@ -278,15 +277,17 @@ public class Node {
    * @param newBlock the block to be logged
    */
   private void printAddBlock(Block newBlock) {
-    OUT_JSON_FILE.print("{");
-    OUT_JSON_FILE.print("\"kind\":\"add-block\",");
-    OUT_JSON_FILE.print("\"content\":{");
-    OUT_JSON_FILE.print("\"timestamp\":" + getCurrentTime() + ",");
-    OUT_JSON_FILE.print("\"node-id\":" + this.getNodeID() + ",");
-    OUT_JSON_FILE.print("\"block-id\":" + newBlock.getId());
-    OUT_JSON_FILE.print("}");
-    OUT_JSON_FILE.print("},");
-    OUT_JSON_FILE.flush();
+    if (LOG_OUT_FILE) {
+      OUT_JSON_FILE.print("{");
+      OUT_JSON_FILE.print("\"kind\":\"add-block\",");
+      OUT_JSON_FILE.print("\"content\":{");
+      OUT_JSON_FILE.print("\"timestamp\":" + getCurrentTime() + ",");
+      OUT_JSON_FILE.print("\"node-id\":" + this.getNodeID() + ",");
+      OUT_JSON_FILE.print("\"block-id\":" + newBlock.getId());
+      OUT_JSON_FILE.print("}");
+      OUT_JSON_FILE.print("},");
+      OUT_JSON_FILE.flush();
+    }
   }
 
   /**
@@ -295,7 +296,7 @@ public class Node {
    * @param orphanBlock the orphan block
    * @param validBlock  the valid block
    */
-  //TODO check this out later
+  // TODO check this out later
   public void addOrphans(Block orphanBlock, Block validBlock) {
     if (orphanBlock != validBlock) {
       this.orphans.add(orphanBlock);
@@ -352,7 +353,8 @@ public class Node {
       this.sendInv(block);
     } else if (!this.orphans.contains(block) && !block.isOnSameChainAs(this.block)) {
       // TODO better understand - what if orphan is not valid?
-      // If the block was not valid but was an unknown orphan and is not on the same chain as the
+      // If the block was not valid but was an unknown orphan and is not on the same
+      // chain as the
       // current block
       this.addOrphans(block, this.block);
       arriveBlock(block, this);
@@ -410,7 +412,8 @@ public class Node {
       this.messageQue.remove(0);
       long bandwidth = getBandwidth(this.getRegion(), to.getRegion());
 
-      // Convert bytes to bits and divide by the bandwidth expressed as bit per millisecond, add
+      // Convert bytes to bits and divide by the bandwidth expressed as bit per
+      // millisecond, add
       // processing time.
       long delay = BLOCK_SIZE * 8 / (bandwidth / 1000) + processingTime;
 
