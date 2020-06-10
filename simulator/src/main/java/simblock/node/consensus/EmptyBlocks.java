@@ -47,7 +47,7 @@ public class EmptyBlocks extends AbstractConsensusAlgo {
       return true;
     }
     if ((receivedBlock instanceof EmptyBlock)
-        && ((receivedBlock.getCallValueStack() - currentBlock.getCallValueStack()) == 1)) {
+        && (currentBlock == null || ((receivedBlock.getCallValueStack() - currentBlock.getCallValueStack()) == 1))) {
       return true;
     }
     return false;
