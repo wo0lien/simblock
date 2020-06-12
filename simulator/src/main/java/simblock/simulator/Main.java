@@ -77,6 +77,13 @@ public class Main {
    */
   public static URI OUT_FILE_URI;
 
+  /**
+   * Switch between output types
+   * 0 = emptyBlocks stack
+   * 1 = normalBlocks stack
+   */
+  public static int which_output = 0;
+
   static {
     try {
       CONF_FILE_URI = ClassLoader.getSystemResource("simulator.conf").toURI();
@@ -124,11 +131,12 @@ public class Main {
     }
 
     //setup from the args (useful to loop results)
-    if (args.length == 4) {
+    if (args.length == 5) {
       INTERVAL = Long.parseLong(args[0]);
       NUM_OF_NODES = Integer.parseInt(args[1]);
       END_BLOCK_HEIGHT = Integer.parseInt(args[2]);
       k = Integer.parseInt(args[3]);
+      which_output = Integer.parseInt(args[4]);
     }
 
     final long start = System.currentTimeMillis();
@@ -230,12 +238,18 @@ public class Main {
 
       // Empy block orphans stack stats
       int emptyStack = 0;
+      int normalStack = 0;
 
       for (Block b : blockList) {
         if (b instanceof EmptyBlock) {
-          emptyStack = emptyStack += 1;
+          emptyStack = emptyStack + 1;
+          if (normalStack != 0 && which_output == 1) {
+            System.out.print(normalStack + ";");
+          }
+          normalStack = 0;
         } else {
-          if (emptyStack != 0) {
+          normalStack = normalStack + 1;
+          if (emptyStack != 0 && which_output == 0) {
             System.out.print(emptyStack + ";");
           }
           emptyStack = 0;
