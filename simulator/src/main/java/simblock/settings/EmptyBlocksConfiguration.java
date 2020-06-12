@@ -12,6 +12,6 @@ public class EmptyBlocksConfiguration {
    * According to the article
    * an integer k
    */
-  public static final int k = 12; //8
+  public static int k = 12; //8
   
 }

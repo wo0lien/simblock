@@ -23,6 +23,7 @@ import static simblock.settings.SimulationConfiguration.INTERVAL;
 import static simblock.settings.SimulationConfiguration.NUM_OF_NODES;
 import static simblock.settings.SimulationConfiguration.STDEV_OF_MINING_POWER;
 import static simblock.settings.SimulationConfiguration.TABLE;
+import static simblock.settings.EmptyBlocksConfiguration.k;
 import static simblock.settings.SimulationConfiguration.LOG_OUT_FILE;
 import static simblock.simulator.Network.getDegreeDistribution;
 import static simblock.simulator.Network.getRegionDistribution;
@@ -123,10 +124,11 @@ public class Main {
     }
 
     //setup from the args (useful to loop results)
-    if (args.length == 3) {
+    if (args.length == 4) {
       INTERVAL = Long.parseLong(args[0]);
       NUM_OF_NODES = Integer.parseInt(args[1]);
       END_BLOCK_HEIGHT = Integer.parseInt(args[2]);
+      k = Integer.parseInt(args[3]);
     }
 
     final long start = System.currentTimeMillis();
