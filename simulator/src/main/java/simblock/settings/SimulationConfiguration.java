@@ -24,7 +24,7 @@ public class SimulationConfiguration {
    * The number of nodes participating in the blockchain network.
    */
   //TODO revert
-  public static final int NUM_OF_NODES = 1000;//600;//800;//6000;
+  public static int NUM_OF_NODES = 100;//600;//800;//6000;
   // public static final int NUM_OF_NODES = 600;//600;//800;//6000;
 
   /**
@@ -43,7 +43,7 @@ public class SimulationConfiguration {
    * The expected value of block generation interval. The difficulty of mining is automatically
    * adjusted by this value and the sum of mining power. (unit: millisecond)
    */
-  public static final long INTERVAL = 1000 * 60;//1000*60;//1000*30*5;//1000*60*10;
+  public static long INTERVAL = 1000 * 60 * 10;//1000*60;//1000*30*5;//1000*60*10;
 
   /**
    * The average mining power of each node. Mining power corresponds to Hash Rate in Bitcoin, and
@@ -78,7 +78,7 @@ public class SimulationConfiguration {
    */
   //TODO revert
   //public static final int END_BLOCK_HEIGHT = 100;
-  public static final int END_BLOCK_HEIGHT = 1000;
+  public static int END_BLOCK_HEIGHT = 100;
 
   /**
    * Block size. (unit: byte).
@@ -88,5 +88,5 @@ public class SimulationConfiguration {
   /**
    * Log or not in output.json file
    */
-  public static final boolean LOG_OUT_FILE = false;
+  public static final boolean LOG_OUT_FILE = true;
 }
