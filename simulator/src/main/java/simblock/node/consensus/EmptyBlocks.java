@@ -43,11 +43,11 @@ public class EmptyBlocks extends AbstractConsensusAlgo {
    */
   public boolean isReceivedBlockValid(Block receivedBlock, Block currentBlock) {
     // block must be a normal block or an empty block
-    if ((receivedBlock instanceof NormalBlock) && receivedBlock != currentBlock) {
+    if ((receivedBlock instanceof NormalBlock) && (currentBlock == null || (receivedBlock.getTime() > currentBlock.getTime()))){
       return true;
     }
     if ((receivedBlock instanceof EmptyBlock)
-        && (currentBlock == null || ((receivedBlock.getCallValueStack() - currentBlock.getCallValueStack()) == 1))) {
+        && (currentBlock == null || receivedBlock.getTime() > currentBlock.getTime() )) {
       return true;
     }
     return false;
