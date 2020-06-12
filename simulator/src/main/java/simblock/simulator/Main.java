@@ -49,6 +49,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import simblock.block.Block;
+import simblock.block.EmptyBlock;
 import simblock.node.CentralAuthority;
 import simblock.node.Node;
 import simblock.task.AbstractMintingTask;
@@ -109,10 +110,25 @@ public class Main {
 
   /**
    * The entry point.
-   *
+   * (optionnal) interval long
+   * (optionnal) nodes number int
+   * (optionnal) end block height
+   * 
    * @param args the input arguments
    */
   public static void main(String[] args) {
+
+    for (int i = 0; i < args.length; i++) {
+      // System.out.println(args[i]);
+    }
+
+    //setup from the args (useful to loop results)
+    if (args.length == 3) {
+      INTERVAL = Long.parseLong(args[0]);
+      NUM_OF_NODES = Integer.parseInt(args[1]);
+      END_BLOCK_HEIGHT = Integer.parseInt(args[2]);
+    }
+
     final long start = System.currentTimeMillis();
     setTargetInterval(INTERVAL);
 
@@ -155,7 +171,7 @@ public class Main {
     printAllPropagation();
 
     // TODO logger
-     System.out.println();
+     // System.out.println();
 
     Set<Block> blocks = new HashSet<>();
 
@@ -195,10 +211,10 @@ public class Main {
 
     // Log all orphans
     // TODO move to method and use logger
-    for (Block orphan : orphans) {
-      System.out.println(orphan + ":" + orphan.getHeight());
-    }
-    System.out.println(averageOrphansSize);
+    // for (Block orphan : orphans) {
+      // System.out.println(orphan + ":" + orphan.getHeight());
+    // }
+    // System.out.println(averageOrphansSize);
 
     /*
      * Log in format: ＜fork_information, block height, block ID＞ fork_information:
@@ -210,7 +226,18 @@ public class Main {
       FileWriter fw = new FileWriter(new File(OUT_FILE_URI.resolve("./blockList.txt")), false);
       PrintWriter pw = new PrintWriter(new BufferedWriter(fw));
 
+      // Empy block orphans stack stats
+      int emptyStack = 0;
+
       for (Block b : blockList) {
+        if (b instanceof EmptyBlock) {
+          emptyStack = emptyStack += 1;
+        } else {
+          if (emptyStack != 0) {
+            System.out.print(emptyStack + ";");
+          }
+          emptyStack = 0;
+        }
         if (!orphans.contains(b)) {
           pw.println("OnChain : " + b.getHeight() + " : " + b);
         } else {
@@ -218,6 +245,7 @@ public class Main {
         }
       }
       pw.close();
+      System.out.println("");
 
     } catch (IOException ex) {
       ex.printStackTrace();
@@ -238,7 +266,7 @@ public class Main {
     long end = System.currentTimeMillis();
     simulationTime += end - start;
     // Log simulation time in milliseconds
-    System.out.println(simulationTime);
+    // System.out.println(simulationTime);
 
   }
 
